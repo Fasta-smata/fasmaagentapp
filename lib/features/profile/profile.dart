@@ -36,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController bankName;
   late TextEditingController accountName;
   late TextEditingController accountNumber;
+  late TextEditingController whyCom = TextEditingController();
   String? dropDownValue;
   bool isLoading = false;
   File? ninImage;
@@ -75,6 +76,109 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Agent? agent = Get.put(ProfileController()).getAgentDetails;
     return Scaffold(
       appBar: AppBar(
+        leading: PopupMenuButton(
+          icon: const Icon(Icons.menu),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              child: TextButton(
+                onPressed: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: AppColor.mainColor,
+                          title: Text(
+                            "Are you sure you want to delete your account?",
+                            style: GoogleFonts.dmSans(
+                                color: AppColor.brandColor,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          content: SizedBox(
+                            height: 250,
+                            child: Column(
+                              children: [
+                                Text(
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.dmSans(
+                                        color: AppColor.brandColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500),
+                                    "Please let us know why you choose not to continue using our app."),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: AppColor.gray,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: TextField(
+                                      controller: nameCom,
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: AppColor.gray,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: TextField(
+                                    maxLines: 7,
+                                    minLines: 5,
+                                    controller: whyCom,
+                                    decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 10),
+                                        border: InputBorder.none,
+                                        hintText:
+                                            "Please provide your reason for deleting your account here."),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                    width: 100.w,
+                                    child: ButtonComp(
+                                        onPressed: () {}, value: "Close")),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                SizedBox(
+                                    width: 100.w,
+                                    child: ButtonComp(
+                                        onPressed: () async {
+                                          await AStorage.logALLOut();
+                                          Get.offAll(
+                                              () => const AgentWelcomeScreen());
+                                        },
+                                        value: "Delete")),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        );
+                      });
+                },
+                child: Text("Delete Account",
+                    style: AppTextStyle.capton(color: AppColor.errorColor)),
+              ),
+            )
+          ],
+        ),
         backgroundColor: AppColor.brandColor,
         elevation: 0,
       ),

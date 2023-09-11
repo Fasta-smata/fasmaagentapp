@@ -218,7 +218,7 @@ class HomeHeader extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Share.share(
-                          'Am Fasta Agent Register with my referial code ${controller.getAgentDetails?.id} download the app from playstore https://play.google.com/store/apps/details?id=com.fastasmata.fasta or \nfrom AppStore ',
+                          "Register as a Fasta Dispatcher using my referral code ${controller.getAgentDetails?.id}. You can download the app from the Play Store at https://play.google.com/store/apps/details?id=com.fastasmata.fasta or from the App Store.",
                           subject:
                               'Am Fasta Agent Register with my referial code');
                     },
@@ -254,8 +254,9 @@ class HomeHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Paymentbutton(
+                    isAmount: true,
                     title: "Amount Made",
-                    subtitle: '${controller.getagentdata?.totalIncome ?? 0}'),
+                    subtitle: ' ${controller.getagentdata?.totalIncome ?? 0}'),
                 SizedBox(
                   width: 30.w,
                 ),
@@ -275,7 +276,12 @@ class HomeHeader extends StatelessWidget {
 class Paymentbutton extends StatelessWidget {
   final String title;
   final String subtitle;
-  const Paymentbutton({super.key, required this.title, required this.subtitle});
+  final bool isAmount;
+  const Paymentbutton(
+      {super.key,
+      this.isAmount = false,
+      required this.title,
+      required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -298,12 +304,32 @@ class Paymentbutton extends StatelessWidget {
                 fontSize: 15,
                 color: AppColor.brandColor),
           ),
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: AppTextStyle.capton(
-                fontWeight: FontWeight.w400, color: AppColor.mainSecondryColor),
-          ),
+          isAmount
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "\u20A6",
+                      style: TextStyle(
+                          color: AppColor.mainSecondryColor, fontSize: 16),
+                    ),
+                    Text(
+                      subtitle,
+                      textAlign: TextAlign.center,
+                      style: AppTextStyle.capton(
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.mainSecondryColor),
+                    ),
+                  ],
+                )
+              : Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.capton(
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.mainSecondryColor),
+                )
         ],
       ),
     );

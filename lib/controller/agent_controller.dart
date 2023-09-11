@@ -114,7 +114,6 @@ class AgentController extends GetxController {
       log('res ${res.body.toString()}');
       await AStorage.saveAgentProfile(res.body.toString());
       AgentProfile agentProfile = AgentProfile.fromJson(json.decode(res.body));
-      print(agentProfile.data.agent.name);
       return agentProfile;
     }
     return null;

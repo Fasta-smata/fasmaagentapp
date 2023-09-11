@@ -59,7 +59,9 @@ class DriverDetialCard extends StatelessWidget {
             title: "Successful Deliveries",
             subtitle: "${driver.totalSuccessfulDeliveries}"),
         DetailView(
-            title: "Referral Bonus", subtitle: "${driver.totalReferralBonus}"),
+            isAmount: true,
+            title: "Referral Bonus",
+            subtitle: "${driver.totalReferralBonus}"),
         DetailView(
             title: "Status",
             subtitle: driver.activeStatus ? "Active" : "Inactive"),
@@ -74,10 +76,12 @@ class DriverDetialCard extends StatelessWidget {
 class DetailView extends StatelessWidget {
   final String title;
   final String subtitle;
+  final bool isAmount;
   const DetailView({
     super.key,
     required this.title,
     required this.subtitle,
+    this.isAmount = false,
   });
 
   @override
@@ -94,11 +98,27 @@ class DetailView extends StatelessWidget {
             style: AppTextStyle.body(color: AppColor.whiteColor, fontSize: 14),
           ),
           const Spacer(),
-          Text(
-            subtitle,
-            style: AppTextStyle.capton(
-                color: AppColor.whiteColor, fontWeight: FontWeight.w400),
-          ),
+          isAmount
+              ? Row(
+                  children: [
+                    const Text(
+                      "\u20A6",
+                      style: TextStyle(
+                          color: AppColor.mainSecondryColor, fontSize: 16),
+                    ),
+                    Text(
+                      subtitle,
+                      style: AppTextStyle.capton(
+                          color: AppColor.whiteColor,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                )
+              : Text(
+                  subtitle,
+                  style: AppTextStyle.capton(
+                      color: AppColor.whiteColor, fontWeight: FontWeight.w400),
+                ),
           SizedBox(
             width: 10.w,
           )
